@@ -1,0 +1,66 @@
+﻿@model Bengo.Models.Vocabulary
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Vocabulary</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.CategoryName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.CategoryName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VocabularyUnit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VocabularyUnit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kana)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kana)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Romaji)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Romaji)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Meaning)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Meaning)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.POS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.POS)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

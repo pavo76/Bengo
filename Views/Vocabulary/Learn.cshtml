@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Bengo.Models.Vocabulary>
+@{
+    ViewBag.Title = "Learn";
+}
+<ul>
+    @foreach (var item in Model)
+    {<li>@Html.DisplayFor(modelItem => item.VocabularyUnit)</li>}
+</ul>
+<div class="col-md-offset-6">
+    @Html.Partial("~/Views/Texts/_TextList.cshtml")
+</div>

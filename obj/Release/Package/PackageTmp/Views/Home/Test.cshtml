@@ -1,0 +1,22 @@
+﻿@model String
+@{
+    ViewBag.Title = "Test";
+}
+<div id="ID" hidden="hidden"></div>
+<div id="table">
+    <table border="1">
+        <tr>
+            <td id="Word"></td>
+        </tr>
+        <tr>
+            <td id="Meaning" class="danger"></td>
+            <td id="Ans1"></td>
+        </tr>
+        <tr>
+            <td id="Ans2"></td>
+            <td id="Ans3"></td>
+        </tr>
+    </table>
+</div>
+<input type="button" id="btn1" onclick="WriteFromJson(@Model.ToString())" value="Start" style="margin:5px;"/>
+<script src="~/Scripts/JsonTestScript.js"></script>

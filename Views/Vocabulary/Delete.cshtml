@@ -1,0 +1,72 @@
+﻿@model Bengo.Models.Vocabulary
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Vocabulary</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.CategoryName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.CategoryName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VocabularyUnit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VocabularyUnit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kana)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kana)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Romaji)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Romaji)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Meaning)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Meaning)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.POS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.POS)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
