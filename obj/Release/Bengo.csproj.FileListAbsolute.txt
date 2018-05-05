@@ -119,3 +119,5 @@ C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.csproj.CoreCompileInput
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.dll
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.pdb
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.Migrations.UserRelatedData.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.csprojResolveAssemblyReference.cache
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.Migrations.UserDataFix.resources

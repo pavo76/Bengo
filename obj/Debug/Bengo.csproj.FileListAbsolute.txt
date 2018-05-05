@@ -120,3 +120,6 @@ C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.pdb
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.Initial.resources
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.csproj.GenerateResource.Cache
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.UserRelatedData.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.UserDataFix.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.csproj.CopyComplete
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.Practice_Tables_Fix.resources

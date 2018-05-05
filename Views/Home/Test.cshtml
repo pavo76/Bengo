@@ -2,21 +2,28 @@
 @{
     ViewBag.Title = "Test";
 }
-<div id="ID" hidden="hidden"></div>
-<div id="table">
+
+@ViewBag.res
+<div id="ID"></div>
+<div id="table" style="margin:5px; display:none">
     <table border="1">
         <tr>
             <td id="Word"></td>
+            <td id="Score"></td>
         </tr>
         <tr>
-            <td id="Meaning" class="danger"></td>
-            <td id="Ans1"></td>
+            <td id="Meaning" onclick="Select(this.id, 'Ans1', 'Ans2', 'Ans3')"></td>
+            <td id="Ans1"  onclick="Select(this.id, 'Meaning', 'Ans2', 'Ans3')"></td>
         </tr>
         <tr>
-            <td id="Ans2"></td>
-            <td id="Ans3"></td>
+            <td id="Ans2"  onclick="Select(this.id, 'Ans1', 'Meaning', 'Ans3')"></td>
+            <td id="Ans3"  onclick="Select(this.id, 'Ans1', 'Ans2', 'Meaning')"></td>
         </tr>
     </table>
 </div>
-<input type="button" id="btn1" onclick="WriteFromJson(@Model.ToString())" value="Start" style="margin:5px;"/>
+<input type="button" id="btnStart" onclick="Start(@Model.ToString())" value="Start" style="margin:5px;" />
+<input type="button" id="btnNext" onclick="Next()" value="Next" style="margin:5px; display:none;" />
+<div id="btnFinish">
+    @Html.ActionLink("Finish","FinishLearning", "Home", new { IDList=ViewBag.IDList}, new { @class = "btn btn-primary", @style = "margin: 5px;" })
+</div>
 <script src="~/Scripts/JsonTestScript.js"></script>

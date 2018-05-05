@@ -9,7 +9,7 @@ namespace Bengo.Models
     public class UserData
     {
         public int ID { get; set; }
-        public int UserName { get; set; }
+        public string UserName { get; set; }
         public string VocabularyList { get; set; }
         public string KanjiList { get; set; }
         public string GrammarList { get; set; }

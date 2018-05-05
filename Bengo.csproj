@@ -34,7 +34,7 @@
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -193,7 +193,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TextController.cs" />
+    <Compile Include="Controllers\UserDatasController.cs" />
     <Compile Include="Controllers\VocabularyController.cs" />
+    <Compile Include="Controllers\Vocabulary_PracticeController.cs" />
     <Compile Include="DAL\BengoContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -205,6 +207,14 @@
     <Compile Include="Migrations\201802151245429_UserRelatedData.cs" />
     <Compile Include="Migrations\201802151245429_UserRelatedData.Designer.cs">
       <DependentUpon>201802151245429_UserRelatedData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803251250037_UserDataFix.cs" />
+    <Compile Include="Migrations\201803251250037_UserDataFix.Designer.cs">
+      <DependentUpon>201803251250037_UserDataFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805050919221_Practice_Tables_Fix.cs" />
+    <Compile Include="Migrations\201805050919221_Practice_Tables_Fix.Designer.cs">
+      <DependentUpon>201805050919221_Practice_Tables_Fix.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -325,6 +335,12 @@
     <EmbeddedResource Include="Migrations\201802151245429_UserRelatedData.resx">
       <DependentUpon>201802151245429_UserRelatedData.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803251250037_UserDataFix.resx">
+      <DependentUpon>201803251250037_UserDataFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805050919221_Practice_Tables_Fix.resx">
+      <DependentUpon>201805050919221_Practice_Tables_Fix.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -344,7 +360,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>63598</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:63598/</IISUrl>
+          <IISUrl>http://localhost:55555/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
