@@ -1,0 +1,58 @@
+﻿@model Bengo.Models.Kanji
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Kanji</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.KanjiUnit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KanjiUnit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Meaning)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Meaning)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OnReading)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OnReading)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KunReading)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KunReading)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SRC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SRC)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

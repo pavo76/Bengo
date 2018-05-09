@@ -190,7 +190,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GrammarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KanjiController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TextController.cs" />
     <Compile Include="Controllers\UserDatasController.cs" />
@@ -231,7 +233,7 @@
     <Compile Include="Models\Kanji_Practice.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RepeatInterval.cs" />
-    <Compile Include="Models\Test.cs" />
+    <Compile Include="ViewModels\LearnViewModel.cs" />
     <Compile Include="Models\Text.cs" />
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Models\Vocabulary.cs" />
@@ -261,7 +263,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\JsonTestScript.js" />
+    <Content Include="Scripts\PracticeScript.js" />
+    <Content Include="Scripts\LearnScript.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -306,11 +309,24 @@
     <Content Include="Views\Vocabulary\Details.cshtml" />
     <Content Include="Views\Vocabulary\Edit.cshtml" />
     <Content Include="Views\Vocabulary\Index.cshtml" />
-    <Content Include="Views\Vocabulary\Learn.cshtml" />
     <Content Include="Views\Vocabulary\Practice.cshtml" />
-    <Content Include="Views\Home\Test.cshtml" />
     <Content Include="Views\Text\Index.cshtml" />
     <Content Include="Views\Text\_TextList.cshtml" />
+    <Content Include="Views\Vocabulary\Learn.cshtml" />
+    <Content Include="Views\Grammar\Create.cshtml" />
+    <Content Include="Views\Grammar\Delete.cshtml" />
+    <Content Include="Views\Grammar\Details.cshtml" />
+    <Content Include="Views\Grammar\Edit.cshtml" />
+    <Content Include="Views\Grammar\Index.cshtml" />
+    <Content Include="Views\Grammar\Learn.cshtml" />
+    <Content Include="Views\Grammar\Practice.cshtml" />
+    <Content Include="Views\Kanji\Create.cshtml" />
+    <Content Include="Views\Kanji\Delete.cshtml" />
+    <Content Include="Views\Kanji\Details.cshtml" />
+    <Content Include="Views\Kanji\Edit.cshtml" />
+    <Content Include="Views\Kanji\Index.cshtml" />
+    <Content Include="Views\Kanji\Learn.cshtml" />
+    <Content Include="Views\Kanji\Practice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

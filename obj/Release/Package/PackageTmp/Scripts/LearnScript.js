@@ -21,7 +21,7 @@ function Start(jsonParameter)
 
 function Next()
 {
-    if (selectedAnswer == json.items[nextItemIndex].meaning)
+    if (selectedAnswer === json.items[nextItemIndex].meaning)
     {
         json.items[nextItemIndex].score += 1;
     }
@@ -35,7 +35,7 @@ function Next()
 
     window.setTimeout(function () {
         Reset();
-        if (CheckIfAllItemsFinished() == true) {
+        if (CheckIfAllItemsFinished() === true) {
             alert("Test Over");
 
             document.getElementById("btnNext").style.display = "none";
@@ -45,8 +45,8 @@ function Next()
         else {
             //Get the first item with lowest score
             for (var i = 0; i < json.items.length; i++) {
-                if (i != nextItemIndex) {
-                    if (i == 0) {
+                if (i !== nextItemIndex) {
+                    if (i === 0) {
                         nextItemIndex = i;
                     }
                     else {
@@ -102,7 +102,7 @@ function RandomlySetAnswers(answer1, answer2, answer3, answer4)
 
 function GetRandomIndex(array)
 {
-    var index = Math.floor((Math.random() * array.length));
+    var index = Math.floor(Math.random() * array.length);
     return index;
 }
 
@@ -112,7 +112,7 @@ function CheckIfAllItemsFinished()
     var result = false;
     for (var i = 0; i < json.items.length; i++)
     {
-        if (json.items[i].score == 4)
+        if (json.items[i].score === 4)
         {
             result = true;
         }

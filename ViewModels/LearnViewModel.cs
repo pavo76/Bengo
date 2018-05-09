@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Bengo.Models
 {
-    public class Test
+    public class LearnViewModel
     {
         public int Id { get; set; }
         public string Word { get; set; }
@@ -14,7 +14,7 @@ namespace Bengo.Models
         public string Ans2 { get; set; }
         public string Ans3 { get; set; }
 
-        public Test(int id, string word, string meaning, string ans1, string ans2, string ans3)
+        public LearnViewModel(int id, string word, string meaning, string ans1, string ans2, string ans3)
         {
             this.Id=id;
             this.Word=word;

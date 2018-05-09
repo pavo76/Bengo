@@ -8,9 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using Bengo.DAL;
 using Bengo.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Bengo.Controllers
 {
+    [Authorize]
     public class VocabularyController : Controller
     {
         private BengoContext db = new BengoContext();
@@ -18,8 +20,7 @@ namespace Bengo.Controllers
         // GET: Vocabulary
         public ActionResult Index()
         {
-            var vocabulary = db.Vocabulary.Include(v => v.Category);
-            return View(vocabulary.ToList());
+            return View();
         }
 
         // GET: Vocabulary/Details/5
@@ -134,14 +135,128 @@ namespace Bengo.Controllers
         // GET: Learn
         public ActionResult Learn()
         {
-            var VocabList = db.Vocabulary.ToList().Take(5);
-            return View(VocabList);
+            string userName = User.Identity.GetUserName();
+
+            var UserData = db.UserData.Where(ud => ud.UserName == userName).
+                                    Select(ud => ud.VocabularyList).First();
+
+            List<Vocabulary> result = new List<Vocabulary>();
+            if (UserData != null)
+            {
+                List<string> UserVocabList = UserData.Split(',').ToList();
+
+
+                if (UserVocabList.Count > 0)
+                {
+                    result = (from vocab in db.Vocabulary
+                              where (!UserVocabList.Contains(vocab.ID.ToString()))
+                              select vocab).Take(5).ToList();
+                }
+            }
+            else
+            {
+                result = (from vocab in db.Vocabulary
+                          select vocab).Take(5).ToList();
+            }
+
+            List<LearnViewModel> model = new List<LearnViewModel>();
+            foreach (var vocab in result)
+            {
+                List<string> answers = (from word in db.Vocabulary
+                                        where word.Meaning != vocab.Meaning
+                                        select word.Meaning).ToList();
+
+                model.Add(new LearnViewModel(vocab.ID, vocab.VocabularyUnit, vocab.Meaning, answers[0], answers[1], answers[2]));
+            }
+            String json = "{'items':[";
+            String IDList = "";
+            for (int i = 0; i < model.Count; i++)
+            {
+                if (i < model.Count - 1)
+                {
+                    json += "{'id':'" + model[i].Id + "','word':'" + model[i].Word + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0" + "},";
+                    IDList += model[i].Id + ",";
+                }
+                else if (i == model.Count - 1)
+                {
+                    json += "{'id':'" + model[i].Id + "','word':'" + model[i].Word + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0" + "}";
+                    IDList += model[i].Id;
+                }
+            }
+            json += "]}";
+            ViewBag.IDList = IDList;
+            return View("Learn", null, json);
+        }
+
+
+        public ActionResult FinishLearning(string IDList)
+        {
+            UserDatasController UDController = new UserDatasController();
+            Vocabulary_PracticeController VPController = new Vocabulary_PracticeController();
+            string userName = User.Identity.GetUserName();
+            var userID = db.UserData.Where(ud => ud.UserName == userName).
+                                    Select(ud => ud.ID).First();
+            UserData userData = db.UserData.Find(userID);
+            if (userData.VocabularyList == "" || userData.VocabularyList == "")
+            {
+                userData.VocabularyList += IDList;
+            }
+            else
+            {
+                userData.VocabularyList += "," + IDList;
+            }
+            UDController.Edit(userData);
+
+            List<string> IDtoList = IDList.Split(',').ToList();
+            foreach (var vocabID in IDtoList)
+            {
+                Vocabulary_Practice vpData = new Vocabulary_Practice
+                {
+                    UserName = userName,
+                    VocabularyID = Int32.Parse(vocabID),
+                    LastPracticed = DateTime.Now,
+                    RepeatInterval = 1
+                };
+
+                VPController.Create(vpData);
+            }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Practice()
         {
+            string userName = User.Identity.GetUserName();
+            //Get list of vocabulary IDs due for practice
+            List<int> vocabIDList=db.Vocabulary_Practice.Where(vp => vp.LastPracticed <= DateTime.Now && vp.UserName==userName).Select(vp=>vp.VocabularyID).ToList();
+            //Get the list of vocabularies based on the list above
+            List<Vocabulary> vocabList = db.Vocabulary.Where(v => vocabIDList.Contains(v.ID)).ToList();
 
-            return View();
+            //Turn vocabulary list into apropriate JSON
+            List<LearnViewModel> model = new List<LearnViewModel>();
+            foreach (var vocab in vocabList)
+            {
+                List<string> answers = vocabList.Where(v => v.ID != vocab.ID).Select(v=>v.Meaning).Take(3).ToList();
+
+                model.Add(new LearnViewModel(vocab.ID, vocab.VocabularyUnit, vocab.Meaning, answers[0], answers[1], answers[2]));
+            }
+            String json = "{'items':[";
+            String IDList = "";
+            for (int i = 0; i < model.Count; i++)
+            {
+                if (i < model.Count - 1)
+                {
+                    json += "{'id':'" + model[i].Id + "','word':'" + model[i].Word + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0" + "},";
+                    IDList += model[i].Id + ",";
+                }
+                else if (i == model.Count - 1)
+                {
+                    json += "{'id':'" + model[i].Id + "','word':'" + model[i].Word + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0" + "}";
+                    IDList += model[i].Id;
+                }
+            }
+            json += "]}";
+            ViewBag.IDList = IDList;
+            return View("Practice", null, json);
         }
     }
 }
