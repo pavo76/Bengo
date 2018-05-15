@@ -16,7 +16,7 @@ function Start(jsonParameter)
     document.getElementById("btnStart").style.display = "none";
     document.getElementById("btnNext").style.display = "block";
     document.getElementById("table").style.display = "block";
-    //document.getElementById("btnFinish").style.display = "none";
+    document.getElementById("btnFinish").style.display = "none";
 }
 
 
@@ -44,7 +44,7 @@ function Next()
 
             document.getElementById("btnNext").style.display = "none";
             document.getElementById("table").style.display = "none";
-            //document.getElementById("btnFinish").style.display = "block";
+            document.getElementById("btnFinish").style.display = "block";
         }
         else {
             //Get the first item with lowest score

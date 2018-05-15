@@ -228,6 +228,8 @@ namespace Bengo.Controllers
             string userName = User.Identity.GetUserName();
             //Get list of vocabulary IDs due for practice
             List<int> vocabIDList=db.Vocabulary_Practice.Where(vp => vp.LastPracticed <= DateTime.Now && vp.UserName==userName).Select(vp=>vp.VocabularyID).ToList();
+            //Get the list of voabulary practice data IDs
+            List<int> practiceDataIDList = db.Vocabulary_Practice.Where(vp => vp.LastPracticed <= DateTime.Now && vp.UserName == userName).Select(vp => vp.ID).ToList();
             //Get the list of vocabularies based on the list above
             List<Vocabulary> vocabList = db.Vocabulary.Where(v => vocabIDList.Contains(v.ID)).ToList();
 
@@ -240,23 +242,42 @@ namespace Bengo.Controllers
                 model.Add(new LearnViewModel(vocab.ID, vocab.VocabularyUnit, vocab.Meaning, answers[0], answers[1], answers[2]));
             }
             String json = "{'items':[";
-            String IDList = "";
             for (int i = 0; i < model.Count; i++)
             {
                 if (i < model.Count - 1)
                 {
                     json += "{'id':'" + model[i].Id + "','word':'" + model[i].Word + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0" + "},";
-                    IDList += model[i].Id + ",";
                 }
                 else if (i == model.Count - 1)
                 {
                     json += "{'id':'" + model[i].Id + "','word':'" + model[i].Word + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0" + "}";
-                    IDList += model[i].Id;
                 }
             }
             json += "]}";
-            ViewBag.IDList = IDList;
+            ViewBag.IDList = String.Join(",", practiceDataIDList);
             return View("Practice", null, json);
+        }
+
+
+        public ActionResult FinishPracticing(string IDString)
+        {
+            List<int> IDList = IDString.Split(',').Select(id=>Int32.Parse(id)).ToList();
+            Vocabulary_PracticeController VPController = new Vocabulary_PracticeController();
+
+            List<Vocabulary_Practice> vocabulary_PracticeList = db.Vocabulary_Practice.Where(vp => IDList.Contains(vp.ID)).ToList();
+
+            foreach(var vocabularyPractice in vocabulary_PracticeList)
+            {
+                if(vocabularyPractice.RepeatInterval<=db.RepeatInterval.Count()+1)
+                { 
+                    vocabularyPractice.RepeatInterval += 1;
+                    double interval = db.RepeatInterval.Where(ri => ri.ID == vocabularyPractice.RepeatInterval).Select(ri => ri.Interval).First();
+                    vocabularyPractice.LastPracticed=vocabularyPractice.LastPracticed.AddDays(interval);
+                    //TODO fix multiple instances of EntityChanger
+                    VPController.Edit(vocabularyPractice);
+                }
+            }
+            return RedirectToAction("Index");
         }
     }
 }
