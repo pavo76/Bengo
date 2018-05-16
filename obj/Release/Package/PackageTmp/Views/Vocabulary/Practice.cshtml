@@ -21,7 +21,7 @@
 </div>
 <input type="button" id="btnStart" onclick="Start(@Model.ToString())" value="Start" style="margin:5px;" />
 <input type="button" id="btnNext" onclick="Next()" value="Next" style="margin:5px; display:none;" />
-@*<div id="btnFinish">
-    @Html.ActionLink("Finish","FinishLearning", "Vocabulary", new { IDList=ViewBag.IDList}, new { @class = "btn btn-primary", @style = "margin: 5px;" })
-</div>*@
+<div id="btnFinish">
+    @Html.ActionLink("Finish","FinishPracticing", "Vocabulary", new { IDString=ViewBag.IDList}, new { @class = "btn btn-primary", @style = "margin: 5px;" })
+</div>
 <script src="~/Scripts/PracticeScript.js"></script>

@@ -274,7 +274,8 @@ namespace Bengo.Controllers
                     double interval = db.RepeatInterval.Where(ri => ri.ID == vocabularyPractice.RepeatInterval).Select(ri => ri.Interval).First();
                     vocabularyPractice.LastPracticed=vocabularyPractice.LastPracticed.AddDays(interval);
                     //TODO fix multiple instances of EntityChanger
-                    VPController.Edit(vocabularyPractice);
+                    db.SaveChanges();
+                    //VPController.Edit(vocabularyPractice);
                 }
             }
             return RedirectToAction("Index");
