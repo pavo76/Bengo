@@ -3,9 +3,6 @@ var selectedAnswer;
 //Set lowest score item index
 var nextItemIndex = 0;
 
-var SelectedAnswerID;
-var CorrectAnswerID;
-
 
 function Start(jsonParameter)
 {
@@ -27,14 +24,13 @@ function Next()
     {
         json.items[nextItemIndex].score = 1;
         Reset();
-        document.getElementById(CorrectAnswerID).style.backgroundColor = "green";
+        alert("Correct");
     }
     else
     {
         json.items[nextItemIndex].score = 0;
         Reset();
-        document.getElementById(SelectedAnswerID).style.backgroundColor = "red";
-        document.getElementById(CorrectAnswerID).style.backgroundColor = "green";
+        alert("Wrong!\nThe correct answer was: " + json.items[nextItemIndex].meaning);
     }
 
     window.setTimeout(function () {
@@ -87,26 +83,20 @@ function RandomlySetAnswers(answer1, answer2, answer3, answer4)
 {
     var answerArray = Array(answer1, answer2, answer3, answer4);
     var answerIndex = GetRandomIndex(answerArray);
-    var answerIDPair = {};
     document.getElementById("Meaning").innerHTML = answerArray[answerIndex];
-    answerIDPair[answerArray[answerIndex]] ="Meaning";
     answerArray.splice(answerIndex, 1);
 
     answerIndex = GetRandomIndex(answerArray);
     document.getElementById("Ans1").innerHTML = answerArray[answerIndex];
-    answerIDPair[answerArray[answerIndex]] = "Ans1";
     answerArray.splice(answerIndex, 1);
 
 
     answerIndex = GetRandomIndex(answerArray);
     document.getElementById("Ans2").innerHTML = answerArray[answerIndex];
     answerArray.splice(answerIndex, 1);
-    answerIDPair[answerArray[answerIndex]] = "Ans2";
 
     answerIndex = GetRandomIndex(answerArray);
-    document.getElementById("Ans3").innerHTML = answerArray[answerIndex];
-    answerIDPair[answerArray[answerIndex]] = "Ans3";
-    CorrectAnswerID = answerIDPair[answer1];
+    document.getElementById("Ans3").innerHTML = answerArray[answerIndex];    
 }
 
 function GetRandomIndex(array)
