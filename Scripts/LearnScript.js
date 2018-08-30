@@ -9,21 +9,27 @@ function Start(jsonParameter)
     json = jsonParameter;
     document.getElementById("Word").innerHTML = json.items[0].word;
     RandomlySetAnswers(json.items[0].meaning, json.items[0].option1, json.items[0].option2, json.items[0].option3);
-    document.getElementById("Score").innerHTML = json.items[0].score + "/4";
+    document.getElementById("Score").innerHTML = json.items[0].score + "/" + json.items.length*4;
 
     document.getElementById("btnStart").style.display = "none";
-    document.getElementById("btnNext").style.display = "block";
-    document.getElementById("table").style.display = "block";
+    //document.getElementById("btnNext").style.display = "block";
+    document.getElementById("test").style.display = "block";
     document.getElementById("btnFinish").style.display = "none";
+    document.getElementById("Explanation").style.display = "none";
 }
 
 
 
 function Next()
 {
+    answerIndicator = document.getElementById("answerIndicator");
     if (selectedAnswer === json.items[nextItemIndex].meaning)
     {
         json.items[nextItemIndex].score += 1;
+        answerIndicator.style.backgroundColor = "yellowgreen";
+        answerIndicator.innerHTML = "Correct!"
+        answerIndicator.style.display = "block";
+
     }
     else
     {
@@ -31,15 +37,18 @@ function Next()
         {
             json.items[nextItemIndex].score -= 1;
         }
+
+        answerIndicator.style.backgroundColor = "indianred";
+        answerIndicator.innerHTML = "Wrong! The correct answer is: " + json.items[nextItemIndex].meaning;
+        answerIndicator.style.display = "block";
     }
 
     window.setTimeout(function () {
         Reset();
-        if (CheckIfAllItemsFinished() === true) {
-            alert("Test Over");
 
-            document.getElementById("btnNext").style.display = "none";
-            document.getElementById("table").style.display = "none";
+        answerIndicator.style.display = "none";
+        if (CheckIfAllItemsFinished() === true) {
+            document.getElementById("test").style.display = "none";
             document.getElementById("btnFinish").style.display = "block";
         }
         else {
@@ -59,28 +68,33 @@ function Next()
 
             document.getElementById("Word").innerHTML = json.items[nextItemIndex].word;
             RandomlySetAnswers(json.items[nextItemIndex].meaning, json.items[nextItemIndex].option1, json.items[nextItemIndex].option2, json.items[nextItemIndex].option3);
-            document.getElementById("Score").innerHTML = json.items[nextItemIndex].score + "/4";
+            var score = 0;
+            for (var i = 0; i < json.items.length; i++)
+            {
+                score += json.items[i].score;
+            }
+            document.getElementById("Score").innerHTML = score + "/" + json.items.length*4;
         }
-    }, 1000);
+    }, 1500);
     
 }
 
 function Select(selectedID, otherID1, otherID2, otherID3)
 {
-    document.getElementById(selectedID).style.backgroundColor = "green";
-    document.getElementById(otherID1).style.backgroundColor = "white";
-    document.getElementById(otherID2).style.backgroundColor = "white";
-    document.getElementById(otherID3).style.backgroundColor = "white";
+    //document.getElementById(selectedID).style.backgroundColor = "green";
+    //document.getElementById(otherID1).style.backgroundColor = "white";
+    //document.getElementById(otherID2).style.backgroundColor = "white";
+    //document.getElementById(otherID3).style.backgroundColor = "white";
 
-    selectedAnswer = document.getElementById(selectedID).innerHTML;
+    selectedAnswer = document.getElementById(selectedID).value;
 }
 
 function Reset()
 {
-    document.getElementById("Meaning").style.backgroundColor = "white";
-    document.getElementById("Ans1").style.backgroundColor = "white";
-    document.getElementById("Ans2").style.backgroundColor = "white";
-    document.getElementById("Ans3").style.backgroundColor = "white";
+//    document.getElementById("Meaning").style.backgroundColor = "white";
+//    document.getElementById("Ans1").style.backgroundColor = "white";
+//    document.getElementById("Ans2").style.backgroundColor = "white";
+//    document.getElementById("Ans3").style.backgroundColor = "white";
     selectedAnswer = "";
 }
 
@@ -88,16 +102,16 @@ function RandomlySetAnswers(answer1, answer2, answer3, answer4)
 {
     var answerArray = Array(answer1, answer2, answer3, answer4);
     var answerIndex = GetRandomIndex(answerArray);
-    document.getElementById("Meaning").innerHTML = answerArray[answerIndex];
+    document.getElementById("Meaning").value = answerArray[answerIndex];
     answerArray.splice(answerIndex, 1);
     answerIndex = GetRandomIndex(answerArray);
-    document.getElementById("Ans1").innerHTML = answerArray[answerIndex];
+    document.getElementById("Ans1").value = answerArray[answerIndex];
     answerArray.splice(answerIndex, 1);
     answerIndex = GetRandomIndex(answerArray);
-    document.getElementById("Ans2").innerHTML = answerArray[answerIndex];
+    document.getElementById("Ans2").value = answerArray[answerIndex];
     answerArray.splice(answerIndex, 1);
     answerIndex = GetRandomIndex(answerArray);
-    document.getElementById("Ans3").innerHTML = answerArray[answerIndex];
+    document.getElementById("Ans3").value = answerArray[answerIndex];
 }
 
 function GetRandomIndex(array)

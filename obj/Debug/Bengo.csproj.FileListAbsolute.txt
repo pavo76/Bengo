@@ -113,7 +113,6 @@ C:\Users\Pavo\source\repos\Bengo\Bengo\bin\Microsoft.AI.DependencyCollector.xml
 C:\Users\Pavo\source\repos\Bengo\Bengo\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\Users\Pavo\source\repos\Bengo\Bengo\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\Pavo\source\repos\Bengo\Bengo\bin\Microsoft.AI.Web.xml
-C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.csprojResolveAssemblyReference.cache
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.csproj.CoreCompileInputs.cache
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.dll
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.pdb
@@ -123,3 +122,12 @@ C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.UserRelatedDat
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.UserDataFix.resources
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.csproj.CopyComplete
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.Practice_Tables_Fix.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.csprojAssemblyReference.cache
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.EditedTextModel.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.ListsForVocabularies.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.GoalMechanic.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.KanaPractice.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.Kana_Practice_Correct_UserID.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.GrammarTask.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.FixedGrammarPractice.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Debug\Bengo.Migrations.TextTitleAdded.resources

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Bengo.Models.Vocabulary>
+
+@{
+    ViewBag.Title = "Vocabulary";
+}
+
+<h2>Vocabulary</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "Vocabulary")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Category.CategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VocabularyUnit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kana)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Romaji)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Meaning)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.POS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KanjiList)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KanaList)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category.CategoryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VocabularyUnit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kana)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Romaji)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Meaning)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.POS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KanjiList)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KanaList)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", "Vocabulary", new { id = item.ID }) |
+            @Html.ActionLink("Details", "Details", "Vocabulary", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "Delete", "Vocabulary", new { id = item.ID })
+        </td>
+    </tr>
+}
+
+</table>

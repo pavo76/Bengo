@@ -1,7 +1,54 @@
-﻿@{
+﻿@model String
+@{
     ViewBag.Title = "Test";
 }
 
-Learn function to be implemented after completion on vocabulary part.
+@ViewBag.res
+<div id="ID"></div>
+<div id="Explanation" style="display:block">
+    <h2>New items:</h2>
+    @{
+        List<string> ExplanationList = new List<string>(ViewBag.ExplanationList.Split(';'));
+        foreach (var item in ExplanationList)
+        {
+    <div>
+        <h3>Kanji: </h3><h4> @item.Split(':')[0]</h4>
+        <h3>Meaning: </h3><h4> @item.Split(':')[1]</h4>
+        <h3>On Reading: </h3><h4> @item.Split(':')[2]</h4>
+        <h3>Kun Reading: </h3><h4> @item.Split(':')[3]</h4>
+    </div>
+            <hr />
+        }
+    }
 
-For reference, go to @Html.ActionLink("Vocabulary Learn", "Learn", "Vocabulary", new { area = "" }, new { @class = "btn btn-primary", @style = "margin: 5px;" })
+
+</div>
+
+<div id="test" class="container" style="margin:5px; display:none">
+    <div class="row">
+        <div class="col-md-1"><b>Score:</b></div>
+        <div class="col-md-1" id="Score"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"><b>Select meaning for:</b></div>
+        <div class="col-md-2" id="Word" style="font-weight:bold;"></div>
+    </div>
+    <div class="row">
+        <input type="button" class="btn-info col-md-4" id="Meaning" onclick="Select(this.id, 'Ans1', 'Ans2', 'Ans3'); Next();" />
+        <input type="button" class="btn-info col-md-4" id="Ans1" onclick="Select(this.id, 'Meaning', 'Ans2', 'Ans3'); Next();" />
+    </div>
+
+    <div class="row">
+        <input type="button" class="btn-info col-md-4" id="Ans2" onclick="Select(this.id, 'Ans1', 'Meaning', 'Ans3'); Next();" />
+        <input type="button" class="btn-info col-md-4" id="Ans3" onclick="Select(this.id, 'Ans1', 'Ans2', 'Meaning'); Next();" />
+    </div>
+
+    <div id="answerIndicator" class="row" style="position:fixed; bottom:0; height:20%; width:100%; font-size:xx-large; display:none;">
+    </div>
+</div>
+
+<input type="button" id="btnStart" onclick="Start(@Model.ToString())" value="Start" style="margin:5px;" />
+<div id="btnFinish" style="display:none;">
+    @Html.ActionLink("Finish", "FinishLearning", "Kanji", new { IDList = ViewBag.IDList }, new { @class = "btn btn-primary", @style = "margin: 5px;" })
+</div>
+<script src="~/Scripts/LearnScript.js"></script>

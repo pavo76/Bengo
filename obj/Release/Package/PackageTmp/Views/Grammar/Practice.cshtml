@@ -1,7 +1,49 @@
-﻿@{
-    ViewBag.Title = "Practice";
+﻿@model String
+@{
+    ViewBag.Title = "Test";
 }
+@ViewBag.res
+<div id="ID"></div>
+<div id="test" class="container" style="margin:5px; display:none">
+    <div class="row">
+        <div class="col-md-1"><b>Score:</b></div>
+        <div class="col-md-1" id="Score"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-4" id="Word" style="font-weight:bold;"></div>
+    </div>
+    <div class="row">
+        <input type="button" class="btn-info col-md-4" id="Meaning" onclick="Select(this.id, 'Ans1', 'Ans2', 'Ans3'); Next();" />
+        <input type="button" class="btn-info col-md-4" id="Ans1" onclick="Select(this.id, 'Meaning', 'Ans2', 'Ans3'); Next();" />
+    </div>
 
-Practice function to be implemented after completion on vocabulary part.
+    <div class="row">
+        <input type="button" class="btn-info col-md-4" id="Ans2" onclick="Select(this.id, 'Ans1', 'Meaning', 'Ans3'); Next();" />
+        <input type="button" class="btn-info col-md-4" id="Ans3" onclick="Select(this.id, 'Ans1', 'Ans2', 'Meaning'); Next();" />
+    </div>
 
-For reference, go to @Html.ActionLink("Vocabulary Practice", "Practice", "Vocabulary", new { area = "" }, new { @class = "btn btn-primary", @style = "margin: 5px;" })
+    <div id="answerIndicator" class="row" style="position:fixed; bottom:0; height:20%; width:100%; font-size:xx-large; display:none;">
+    </div>
+</div>
+
+@*<div id="table" style="margin:5px; display:none">
+        <table border="1">
+            <tr>
+                <td id="Word"></td>
+            </tr>
+            <tr>
+                <td id="Meaning" onclick="Select(this.id, 'Ans1', 'Ans2', 'Ans3')"></td>
+                <td id="Ans1"  onclick="Select(this.id, 'Meaning', 'Ans2', 'Ans3')"></td>
+            </tr>
+            <tr>
+                <td id="Ans2"  onclick="Select(this.id, 'Ans1', 'Meaning', 'Ans3')"></td>
+                <td id="Ans3"  onclick="Select(this.id, 'Ans1', 'Ans2', 'Meaning')"></td>
+            </tr>
+        </table>
+    </div>*@
+<input type="button" id="btnStart" onclick="Start(@Model.ToString())" value="Start" style="margin:5px;" />
+@*<input type="button" id="btnNext" onclick="Next()" value="Next" style="margin:5px; display:none;" />*@
+<div id="btnFinish"  style="display:none;">
+    @Html.ActionLink("Finish", "FinishPracticing", "Grammar", new { IDString = ViewBag.IDList, goodString="_Good", okayString="_Okay", badString="_Bad" }, new { @id="FinishLink", @class = "btn btn-primary", @style = "margin: 5px;" })
+</div>
+<script src="~/Scripts/PracticeScript.js"></script>

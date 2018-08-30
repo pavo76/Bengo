@@ -119,7 +119,15 @@ C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.csproj.CoreCompileInput
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.dll
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.pdb
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.Migrations.UserRelatedData.resources
-C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.csprojResolveAssemblyReference.cache
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.Migrations.UserDataFix.resources
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.Migrations.Practice_Tables_Fix.resources
 C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.csproj.CopyComplete
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.csprojAssemblyReference.cache
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.Migrations.EditedTextModel.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.Migrations.ListsForVocabularies.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.Migrations.GoalMechanic.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.Migrations.KanaPractice.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.Migrations.Kana_Practice_Correct_UserID.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.Migrations.GrammarTask.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.Migrations.FixedGrammarPractice.resources
+C:\Users\Pavo\source\repos\Bengo\Bengo\obj\Release\Bengo.Migrations.TextTitleAdded.resources

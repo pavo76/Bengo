@@ -15,6 +15,6 @@ namespace Bengo.Models
         public string GrammarList { get; set; }
         public string KanaList { get; set; }
         public bool KanaDone { get; set; }
-
+        public int GoalID { get; set; }
     }
 }

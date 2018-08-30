@@ -20,6 +20,11 @@ namespace Bengo.Controllers
         // GET: Vocabulary
         public ActionResult Index()
         {
+
+            string userName = User.Identity.GetUserName();
+            int duePracticeCount = db.Vocabulary_Practice.Where(vp => vp.LastPracticed <= DateTime.Now && vp.UserName == userName).Count();
+
+            ViewBag.DuePracticeCount = duePracticeCount;
             return View();
         }
 
@@ -132,60 +137,153 @@ namespace Bengo.Controllers
         }
 
 
-        // GET: Learn
-        public ActionResult Learn()
+        // POST: LEarn
+        [HttpPost]
+        public ActionResult Learn(FormCollection formData)
         {
             string userName = User.Identity.GetUserName();
 
-            var UserData = db.UserData.Where(ud => ud.UserName == userName).
+            var UserVocabData = db.UserData.Where(ud => ud.UserName == userName).
                                     Select(ud => ud.VocabularyList).First();
+            var UserKanjiData = db.UserData.Where(ud => ud.UserName == userName).
+                                    Select(ud => ud.KanjiList).First();
+            var UserKanaData = db.UserData.Where(ud => ud.UserName == userName).
+                                    Select(ud => ud.KanaList).First();
+            int GoalID = db.UserData.Where(ud => ud.UserName == userName).
+                                    Select(ud => ud.GoalID).First();
+            int itemNumber = Int32.Parse(formData.GetValues("LearnItemNumber")[0]);
+            string learnForGoal = formData.GetValues("LearnFor")[0];
 
             List<Vocabulary> result = new List<Vocabulary>();
-            if (UserData != null)
+            if (UserVocabData != null)
             {
-                List<string> UserVocabList = UserData.Split(',').ToList();
+                List<string> UserVocabList = UserVocabData.Split(',').ToList();
 
 
                 if (UserVocabList.Count > 0)
                 {
-                    result = (from vocab in db.Vocabulary
-                              where (!UserVocabList.Contains(vocab.ID.ToString()))
-                              select vocab).Take(5).ToList();
+                    if (learnForGoal=="Default")
+                    {
+                        result = (from vocab in db.Vocabulary
+                                  where (!UserVocabList.Contains(vocab.ID.ToString()))
+                                  select vocab).Take(itemNumber).ToList();
+                    }
+                    else if (learnForGoal == "Goal" && GoalID!=0)
+                    {
+                        List<string> GoalVocabList = db.Text.Select(text => text.World_List).First().Split(',').ToList();
+                        result = (from vocab in db.Vocabulary
+                                  where (!UserVocabList.Contains(vocab.ID.ToString()) && GoalVocabList.Contains(vocab.ID.ToString()))
+                                  select vocab).Take(itemNumber).ToList();
+                    }
                 }
             }
             else
             {
-                result = (from vocab in db.Vocabulary
-                          select vocab).Take(5).ToList();
-            }
-
-            List<LearnViewModel> model = new List<LearnViewModel>();
-            foreach (var vocab in result)
-            {
-                List<string> answers = (from word in db.Vocabulary
-                                        where word.Meaning != vocab.Meaning
-                                        select word.Meaning).ToList();
-
-                model.Add(new LearnViewModel(vocab.ID, vocab.VocabularyUnit, vocab.Meaning, answers[0], answers[1], answers[2]));
-            }
-            String json = "{'items':[";
-            String IDList = "";
-            for (int i = 0; i < model.Count; i++)
-            {
-                if (i < model.Count - 1)
+                if (learnForGoal == "Default")
                 {
-                    json += "{'id':'" + model[i].Id + "','word':'" + model[i].Word + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0" + "},";
-                    IDList += model[i].Id + ",";
+                    result = (from vocab in db.Vocabulary
+                                select vocab).Take(itemNumber).ToList();
                 }
-                else if (i == model.Count - 1)
+                else if(learnForGoal == "Goal" && GoalID!=0)
                 {
-                    json += "{'id':'" + model[i].Id + "','word':'" + model[i].Word + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0" + "}";
-                    IDList += model[i].Id;
+                    List<string> GoalVocabList = db.Text.Select(text => text.World_List).First().Split(',').ToList();
+                    result = (from vocab in db.Vocabulary
+                                where (GoalVocabList.Contains(vocab.ID.ToString()))
+                                select vocab).Take(itemNumber).ToList();
                 }
             }
-            json += "]}";
-            ViewBag.IDList = IDList;
-            return View("Learn", null, json);
+            
+            if (result.Count > 0)
+            {
+                List<LearnViewModel> model = new List<LearnViewModel>();
+                string ExplanationList = "";
+                foreach (var vocab in result)
+                {
+                    List<string> potentialAnswers = (from word in db.Vocabulary
+                                                     where word.Meaning != vocab.Meaning
+                                                     select word.Meaning).ToList();
+                    List<string> answers = new List<string>();
+                    for (var i = 0; i < 3; i++)
+                    {
+                        var randomIndex = new Random().Next(0, potentialAnswers.Count - 1);
+                        answers.Add(potentialAnswers[randomIndex]);
+                        potentialAnswers.RemoveAt(randomIndex);
+                    }
+                    bool userKnowsKanji=false;
+                    bool userKnowsKana = false;
+                    if(UserKanjiData!=null)
+                    {
+                        var UserKanjiList = UserKanjiData.Split(',').ToList();
+                        var VocabKanjiList = vocab.KanjiList.Split(',').ToList();
+                        userKnowsKanji = !VocabKanjiList.Except(UserKanjiList).Any();
+                    }
+                    if (UserKanaData != null)
+                    {
+                        var UserKanaList = UserKanaData.Split(',').ToList();
+                        var VocabKanaList = vocab.KanaList.Split(',').ToList();
+                        userKnowsKana = !VocabKanaList.Except(UserKanaList).Any();
+                    }
+                    if (userKnowsKanji)
+                    {
+                        model.Add(new LearnViewModel(vocab.ID, vocab.VocabularyUnit, vocab.Meaning, answers[0], answers[1], answers[2]));
+                        if(ExplanationList=="")
+                        {
+                            ExplanationList += $"{vocab.VocabularyUnit.Replace("\\", "")}:{vocab.Meaning.Replace("\\", "")}";
+                        }
+                        else
+                        {
+                            ExplanationList += $",{vocab.VocabularyUnit.Replace("\\", "")}:{vocab.Meaning.Replace("\\", "")}";
+                        }
+                    }
+                    else if (userKnowsKana)
+                    {
+                        model.Add(new LearnViewModel(vocab.ID, vocab.Kana, vocab.Meaning, answers[0], answers[1], answers[2]));
+                        if (ExplanationList == "")
+                        {
+                            ExplanationList += $"{vocab.Kana.Replace("\\", "")}:{vocab.Meaning.Replace("\\", "")}";
+                        }
+                        else
+                        {
+                            ExplanationList += $",{vocab.Kana.Replace("\\", "")}:{vocab.Meaning.Replace("\\", "")}";
+                        }
+                    }
+                    else
+                    {
+                        model.Add(new LearnViewModel(vocab.ID, vocab.Romaji, vocab.Meaning, answers[0], answers[1], answers[2]));
+                        if (ExplanationList == "")
+                        {
+                            ExplanationList += $"{vocab.Romaji.Replace("\\", "")}:{vocab.Meaning.Replace("\\", "")}";
+                        }
+                        else
+                        {
+                            ExplanationList += $",{vocab.Romaji.Replace("\\", "")}:{vocab.Meaning.Replace("\\", "")}";
+                        }
+                    }
+                }
+                String json = "{'items':[";
+                String IDList = "";
+                for (int i = 0; i < model.Count; i++)
+                {
+                    if (i < model.Count - 1)
+                    {
+                        json += "{'id':'" + model[i].Id + "','word':'" + model[i].Item + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0" + "},";
+                        IDList += model[i].Id + ",";
+                    }
+                    else if (i == model.Count - 1)
+                    {
+                        json += "{'id':'" + model[i].Id + "','word':'" + model[i].Item + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0" + "}";
+                        IDList += model[i].Id;
+                    }
+                }
+                json += "]}";
+                ViewBag.IDList = IDList;
+                ViewBag.ExplanationList = ExplanationList;
+                return View("Learn", null, json);
+            }
+            else
+            {
+                return View("LearnEnd");
+            }
         }
 
 
@@ -237,8 +335,47 @@ namespace Bengo.Controllers
             List<LearnViewModel> model = new List<LearnViewModel>();
             foreach (var vocab in vocabList)
             {
-                List<string> answers = vocabList.Where(v => v.ID != vocab.ID).Select(v=>v.Meaning).Take(3).ToList();
+                var UserKanjiData = db.UserData.Where(ud => ud.UserName == userName).
+                                    Select(ud => ud.KanjiList).First();
+                var UserKanaData = db.UserData.Where(ud => ud.UserName == userName).
+                                        Select(ud => ud.KanaList).First();
+                List<string> potentialAnswers = (from word in db.Vocabulary
+                                                 where word.Meaning != vocab.Meaning
+                                                 select word.Meaning).ToList();
+                List<string> answers = new List<string>();
+                for (var i = 0; i < 3; i++)
+                {
+                    var randomIndex = new Random().Next(0, potentialAnswers.Count - 1);
+                    answers.Add(potentialAnswers[randomIndex]);
+                    potentialAnswers.RemoveAt(randomIndex);
+                }
 
+                bool userKnowsKanji = false;
+                bool userKnowsKana = false;
+                //if (UserKanjiData != null)
+                //{
+                //    var UserKanjiList = UserKanjiData.Split(',').ToList();
+                //    var VocabKanjiList = vocab.KanjiList.Split(',').ToList();
+                //    userKnowsKanji = !VocabKanjiList.Except(UserKanjiList).Any();
+                //}
+                //if (UserKanaData != null)
+                //{
+                //    var UserKanaList = UserKanaData.Split(',').ToList();
+                //    var VocabKanaList = vocab.KanaList.Split(',').ToList();
+                //    userKnowsKana = !VocabKanaList.Except(UserKanaList).Any();
+                //}
+                //if (userKnowsKanji)
+                //{
+                //    model.Add(new LearnViewModel(vocab.ID, vocab.VocabularyUnit, vocab.Meaning, answers[0], answers[1], answers[2]));
+                //}
+                //else if (userKnowsKana)
+                //{
+                //    model.Add(new LearnViewModel(vocab.ID, vocab.Kana, vocab.Meaning, answers[0], answers[1], answers[2]));
+                //}
+                //else
+                //{
+                //    model.Add(new LearnViewModel(vocab.ID, vocab.Romaji, vocab.Meaning, answers[0], answers[1], answers[2]));
+                //}
                 model.Add(new LearnViewModel(vocab.ID, vocab.VocabularyUnit, vocab.Meaning, answers[0], answers[1], answers[2]));
             }
             String json = "{'items':[";
@@ -246,11 +383,11 @@ namespace Bengo.Controllers
             {
                 if (i < model.Count - 1)
                 {
-                    json += "{'id':'" + model[i].Id + "','word':'" + model[i].Word + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0" + "},";
+                    json += "{'id':'" + model[i].Id + "','word':'" + model[i].Item + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0,'finished':0" + "},";
                 }
                 else if (i == model.Count - 1)
                 {
-                    json += "{'id':'" + model[i].Id + "','word':'" + model[i].Word + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0" + "}";
+                    json += "{'id':'" + model[i].Id + "','word':'" + model[i].Item + "','meaning':'" + model[i].Meaning + "','option1':'" + model[i].Ans1 + "','option2':'" + model[i].Ans2 + "','option3':'" + model[i].Ans3 + "','score':0,'finished':0" + "}";
                 }
             }
             json += "]}";
@@ -259,9 +396,37 @@ namespace Bengo.Controllers
         }
 
 
-        public ActionResult FinishPracticing(string IDString)
+        public ActionResult FinishPracticing(string IDString, string goodString, string okayString, string badString)
         {
             List<int> IDList = IDString.Split(',').Select(id=>Int32.Parse(id)).ToList();
+            List<int> GoodList = new List<int>();
+            List<int> OkayList = new List<int>();
+            List<int> BadList = new List<int>();
+
+            if (goodString != "_Good" && goodString.Contains(','))
+            {
+                GoodList = goodString.Split(',').Select(id => Int32.Parse(id)).ToList();
+            }
+            else if (goodString != "_Good")
+            {
+                GoodList.Add(Int32.Parse(goodString));
+            }
+            if(okayString !="_Okay" && okayString.Contains(','))
+            { 
+            OkayList = okayString.Split(',').Select(id => Int32.Parse(id)).ToList();
+            }
+            else if(okayString!= "_Okay")
+            {
+                OkayList.Add(Int32.Parse(okayString));
+            }
+            if (badString!="_Bad" && badString.Contains(','))
+            { 
+            BadList = badString.Split(',').Select(id => Int32.Parse(id)).ToList();
+            }
+            else if (badString != "_Bad")
+            {
+                BadList.Add(Int32.Parse(badString));
+            }
             Vocabulary_PracticeController VPController = new Vocabulary_PracticeController();
 
             List<Vocabulary_Practice> vocabulary_PracticeList = db.Vocabulary_Practice.Where(vp => IDList.Contains(vp.ID)).ToList();
@@ -269,16 +434,79 @@ namespace Bengo.Controllers
             foreach(var vocabularyPractice in vocabulary_PracticeList)
             {
                 if(vocabularyPractice.RepeatInterval<=db.RepeatInterval.Count()+1)
-                { 
-                    vocabularyPractice.RepeatInterval += 1;
-                    double interval = db.RepeatInterval.Where(ri => ri.ID == vocabularyPractice.RepeatInterval).Select(ri => ri.Interval).First();
-                    vocabularyPractice.LastPracticed=vocabularyPractice.LastPracticed.AddDays(interval);
-                    //TODO fix multiple instances of EntityChanger
-                    db.SaveChanges();
-                    //VPController.Edit(vocabularyPractice);
+                {
+                    if (GoodList.Contains(vocabularyPractice.VocabularyID))
+                    {
+                        vocabularyPractice.RepeatInterval += 1;
+                        double interval = db.RepeatInterval.Where(ri => ri.ID == vocabularyPractice.RepeatInterval).Select(ri => ri.Interval).First();
+                        vocabularyPractice.LastPracticed = DateTime.Now.AddDays(interval);
+                        //TODO fix multiple instances of EntityChanger
+                        db.SaveChanges();
+                        //VPController.Edit(vocabularyPractice);
+                    }
+                    if (OkayList.Contains(vocabularyPractice.VocabularyID))
+                    {
+                        double interval = db.RepeatInterval.Where(ri => ri.ID == vocabularyPractice.RepeatInterval).Select(ri => ri.Interval).First();
+                        vocabularyPractice.LastPracticed = DateTime.Now.AddDays(interval);
+                        //TODO fix multiple instances of EntityChanger
+                        db.SaveChanges();
+                        //VPController.Edit(vocabularyPractice);
+                    }
+                    if (BadList.Contains(vocabularyPractice.VocabularyID))
+                    {
+                        if (vocabularyPractice.RepeatInterval > 1)
+                        {
+                            vocabularyPractice.RepeatInterval -= 1;
+                        }
+                        double interval = db.RepeatInterval.Where(ri => ri.ID == vocabularyPractice.RepeatInterval).Select(ri => ri.Interval).First();
+                        vocabularyPractice.LastPracticed = DateTime.Now.AddDays(interval);
+                        //TODO fix multiple instances of EntityChanger
+                        db.SaveChanges();
+                        //VPController.Edit(vocabularyPractice);
+                    }
                 }
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult AddKanaList()
+        {
+            List<Vocabulary> VocabularyList = db.Vocabulary.ToList();
+            foreach(Vocabulary vocabulary in VocabularyList)
+            {
+                if (vocabulary.KanaList == null)
+                {
+                    List<int> KanaIDList = new List<int>();
+                    foreach (char character in vocabulary.Kana)
+                    {
+                        string characterString = new string(character, 1);
+                        int KanaID = db.Kana.Where(k => k.Letter == characterString).Select(k => k.ID).FirstOrDefault();
+                        if (!KanaIDList.Contains(KanaID) && KanaID != 0)
+                        {
+                            KanaIDList.Add(KanaID);
+                        }
+                    }
+                    KanaIDList = KanaIDList.OrderBy(k => k).ToList();
+                    string KanaIDListString = "";
+                    for (int i = 0; i < KanaIDList.Count; i++)
+                    {
+                        if (i != KanaIDList.Count - 1)
+                        {
+                            KanaIDListString += KanaIDList.ElementAt(i) + ",";
+                        }
+                        else
+                        {
+                            KanaIDListString += KanaIDList.ElementAt(i);
+                        }
+                    }
+
+                    vocabulary.KanaList = KanaIDListString;
+
+                    this.Edit(vocabulary);
+                    db.SaveChanges();
+                }
+            }
+            return View("Index");
         }
     }
 }

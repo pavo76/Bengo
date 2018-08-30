@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Bengo.Models.UserData>
+
+@{
+    ViewBag.Title = "UserData";
+}
+
+<h2>UserData</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "UserDatas")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VocabularyList)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KanjiList)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GrammarList)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KanaList)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KanaDone)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VocabularyList)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KanjiList)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GrammarList)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KanaList)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KanaDone)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", "UserDatas", new { id=item.ID }, new { area = "" }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

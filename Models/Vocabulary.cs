@@ -14,6 +14,8 @@ namespace Bengo.Models
         public string Meaning { get; set; }
         public string POS { get; set; }
         public int CategoryID { get; set; }
+        public string KanjiList { get; set; }
+        public string KanaList { get; set; }
 
         public virtual Category Category { get; set; }
     }

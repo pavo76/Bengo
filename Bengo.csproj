@@ -190,9 +190,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DatabaseController.cs" />
     <Compile Include="Controllers\GrammarController.cs" />
+    <Compile Include="Controllers\GrammarTaskController.cs" />
+    <Compile Include="Controllers\Grammar_PracticeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KanasController.cs" />
+    <Compile Include="Controllers\Kanas_PracticeController.cs" />
     <Compile Include="Controllers\KanjiController.cs" />
+    <Compile Include="Controllers\Kanji_PracticeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TextController.cs" />
     <Compile Include="Controllers\UserDatasController.cs" />
@@ -218,17 +224,49 @@
     <Compile Include="Migrations\201805050919221_Practice_Tables_Fix.Designer.cs">
       <DependentUpon>201805050919221_Practice_Tables_Fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805290354380_EditedTextModel.cs" />
+    <Compile Include="Migrations\201805290354380_EditedTextModel.Designer.cs">
+      <DependentUpon>201805290354380_EditedTextModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806260143513_ListsForVocabularies.cs" />
+    <Compile Include="Migrations\201806260143513_ListsForVocabularies.Designer.cs">
+      <DependentUpon>201806260143513_ListsForVocabularies.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807101314568_GoalMechanic.cs" />
+    <Compile Include="Migrations\201807101314568_GoalMechanic.Designer.cs">
+      <DependentUpon>201807101314568_GoalMechanic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807241142086_KanaPractice.cs" />
+    <Compile Include="Migrations\201807241142086_KanaPractice.Designer.cs">
+      <DependentUpon>201807241142086_KanaPractice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807241155460_Kana_Practice_Correct_UserID.cs" />
+    <Compile Include="Migrations\201807241155460_Kana_Practice_Correct_UserID.Designer.cs">
+      <DependentUpon>201807241155460_Kana_Practice_Correct_UserID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808181405272_GrammarTask.cs" />
+    <Compile Include="Migrations\201808181405272_GrammarTask.Designer.cs">
+      <DependentUpon>201808181405272_GrammarTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808190401125_FixedGrammarPractice.cs" />
+    <Compile Include="Migrations\201808190401125_FixedGrammarPractice.Designer.cs">
+      <DependentUpon>201808190401125_FixedGrammarPractice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808200854516_TextTitleAdded.cs" />
+    <Compile Include="Migrations\201808200854516_TextTitleAdded.Designer.cs">
+      <DependentUpon>201808200854516_TextTitleAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Example.cs" />
     <Compile Include="Models\Grammar.cs" />
-    <Compile Include="Models\GrammarQuestion.cs" />
+    <Compile Include="Models\GrammarTask.cs" />
     <Compile Include="Models\Grammar_Practice.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Interval.cs" />
     <Compile Include="Models\Kana.cs" />
-    <Compile Include="Models\KanaPractice.cs" />
+    <Compile Include="Models\Kana_Practice.cs" />
     <Compile Include="Models\Kanji.cs" />
     <Compile Include="Models\Kanji_Practice.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -240,6 +278,7 @@
     <Compile Include="Models\Vocabulary_Practice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\TextViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -263,6 +302,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\LearnGrammarScript.js" />
     <Content Include="Scripts\PracticeScript.js" />
     <Content Include="Scripts\LearnScript.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -327,9 +367,33 @@
     <Content Include="Views\Kanji\Index.cshtml" />
     <Content Include="Views\Kanji\Learn.cshtml" />
     <Content Include="Views\Kanji\Practice.cshtml" />
+    <Content Include="Views\Database\Vocabulary.cshtml" />
+    <Content Include="Views\Database\Index.cshtml" />
+    <Content Include="Views\Database\Kanji.cshtml" />
+    <Content Include="Views\Database\Grammar.cshtml" />
+    <Content Include="Views\Database\Kana.cshtml" />
+    <Content Include="Views\Database\UserData.cshtml" />
+    <Content Include="Views\Database\Texts.cshtml" />
+    <Content Include="Views\Database\VocabularyPractice.cshtml" />
+    <Content Include="Views\Vocabulary\LearnEnd.cshtml" />
+    <Content Include="Views\UserDatas\Edit.cshtml" />
+    <Content Include="Views\Kanas\Create.cshtml" />
+    <Content Include="Views\Kanas\Delete.cshtml" />
+    <Content Include="Views\Kanas\Details.cshtml" />
+    <Content Include="Views\Kanas\Edit.cshtml" />
+    <Content Include="Views\Kanas\Index.cshtml" />
+    <Content Include="Views\Kanas\Learn.cshtml" />
+    <Content Include="Views\Kanji\LearnEnd.cshtml" />
+    <Content Include="Views\Kanas\LearnEnd.cshtml" />
+    <Content Include="Views\Kanas\Practice.cshtml" />
+    <Content Include="Views\Grammar\LearnEnd.cshtml" />
+    <Content Include="Views\Text\Text.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\GrammarTask\" />
+    <Folder Include="Views\Grammar_Practice\" />
+    <Folder Include="Views\Kanji_Practice\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -356,6 +420,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805050919221_Practice_Tables_Fix.resx">
       <DependentUpon>201805050919221_Practice_Tables_Fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805290354380_EditedTextModel.resx">
+      <DependentUpon>201805290354380_EditedTextModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806260143513_ListsForVocabularies.resx">
+      <DependentUpon>201806260143513_ListsForVocabularies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807101314568_GoalMechanic.resx">
+      <DependentUpon>201807101314568_GoalMechanic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807241142086_KanaPractice.resx">
+      <DependentUpon>201807241142086_KanaPractice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807241155460_Kana_Practice_Correct_UserID.resx">
+      <DependentUpon>201807241155460_Kana_Practice_Correct_UserID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808181405272_GrammarTask.resx">
+      <DependentUpon>201808181405272_GrammarTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808190401125_FixedGrammarPractice.resx">
+      <DependentUpon>201808190401125_FixedGrammarPractice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808200854516_TextTitleAdded.resx">
+      <DependentUpon>201808200854516_TextTitleAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

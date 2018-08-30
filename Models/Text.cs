@@ -8,10 +8,12 @@ namespace Bengo.Models
     public class Text
     {
         public int ID { get; set; }
+        public string Title { get; set; }
         public string Script { get; set; }
         public string World_List { get; set; }
         public string Kanji_List { get; set; }
         public string Grammar_List { get; set; }
-
+        public string Kana_List { get; set; }
+        public bool ForLearningKana { get; set; }
     }
 }

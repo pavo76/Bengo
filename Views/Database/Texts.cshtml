@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Bengo.Models.Text>
+
+@{
+    ViewBag.Title = "Texts";
+}
+
+<h2>Texts</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "Text")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Script)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.World_List)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kanji_List)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Grammar_List)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kana_List)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ForLearningKana)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Script)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.World_List)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kanji_List)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Grammar_List)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kana_List)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ForLearningKana)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

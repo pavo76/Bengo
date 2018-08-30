@@ -8,7 +8,7 @@ namespace Bengo.Models
     public class Grammar_Practice
     {
         public int ID { get; set; }
-        public int UserName { get; set; }
+        public string UserName { get; set; }
         public int GrammarID { get; set; }
         public DateTime LastPracticed { get; set; }
         public int RepeatInterval { get; set; }

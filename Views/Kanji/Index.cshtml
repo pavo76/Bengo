@@ -3,9 +3,26 @@
 }
 
 <div class="row">
-    @Html.ActionLink("Learn", "Learn", "Kanji", new { area = "" }, new { @class = "btn btn-primary", @style = "margin: 5px;" })
+    @using (Html.BeginForm("Learn", "Kanji"))
+    {
+        <label>Item number:</label>
+        <input type="number" name="LearnItemNumber" min="1" max="30" value="5" />
+        <select name="LearnFor">
+            <option value="Default">Default learn</option>
+            <option value="Goal">Learn for goal</option>
+        </select>
+        <input type="submit" class="btn btn-primary" style="margin: 5px;" value="Start Learning" />
+    }
+
 </div>
 
 <div class="row">
-    @Html.ActionLink("Practice", "Practice", "Kanji", new { area = "" }, new { @class = "btn btn-primary", @style = "margin: 5px;" })
-</div>
+    @{ if (ViewBag.DuePracticeCount == 0)
+        {<p>No kanji due for practice</p>}
+        else
+        {
+            <span>Kanji due for practicing: @ViewBag.DuePracticeCount</span>
+            @Html.ActionLink("Practice", "Practice", "Kanji", new { area = "" }, new { @class = "btn btn-primary", @style = "margin: 5px;" })
+            }
+        }
+        </div>

@@ -15,7 +15,6 @@ namespace Bengo.DAL
         public DbSet<Grammar> Grammar { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<Example> Example { get; set; }
-        public DbSet<GrammarQuestion> GrammarQuestion { get; set; }
         public DbSet<Text> Text { get; set; }
         public DbSet<Grammar_Practice> Grammar_Practice { get; set; }
         public DbSet<RepeatInterval> RepeatInterval { get; set; }
@@ -23,6 +22,8 @@ namespace Bengo.DAL
         public DbSet<Kanji_Practice> Kanji_Practice { get; set; }
         public DbSet<UserData> UserData { get; set; }
         public DbSet<Vocabulary_Practice> Vocabulary_Practice { get; set; }
+        public DbSet<Kana_Practice> Kana_Practice { get; set; }
+        public DbSet<GrammarTask> GrammarTask { get; set; }
 
         public BengoContext()
             : base("DefaultConnection", throwIfV1Schema: false)

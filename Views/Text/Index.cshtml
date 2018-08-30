@@ -1,32 +1,39 @@
-﻿
+﻿@model IEnumerable<Bengo.ViewModels.TextViewModel>
 @{
     ViewBag.Title = "Index";
 }
 
-<div class="row" style="margin-top:5px">
-    <div class="row panel-title" style="margin-top:5px"><a href="#">日米首脳 北朝鮮への圧力 最大限まで高めることで一致</a></div>
-    <div class="row" style="margin-top:5px">
-        <div class="col-md-2">Vocabulary: XX%</div>
-        <div class="col-md-2">Grammar: XX%</div>
-        <div class="col-md-2">Kanji: XX%</div>
-    </div>
-</div>
+@foreach (var item in Model)
+{
+<div style="border:solid; margin:5px; padding:5px;">
+    <h3>@item.Title</h3>
+    <br />
+    <b>Vocabulary percentage:</b> @Math.Round(item.VocabularyPercentage)%  <b>Grammar percentage:</b> @Math.Round(item.GrammarPercentage)% @{
+        if (item.ForLearningKana)
+        {
+            <b>Kana percentage:</b> @Math.Round(item.KanaPercentage) <span>%</span>
+        }
+        else
+        {
+            <b>Kanji percentage:</b> @Math.Round(item.KanjiPercentage) <span>%</span>
+        }
 
-<div class="row" style="margin-top:5px">
-    <div class="row panel-title" style="margin-top:5px"><a href="#">北朝鮮メディア「米が戦争の火ぶた切ろうとしている」と非難</a></div>
-    <div class="row" style="margin-top:5px">
-        <div class="col-md-2">Vocabulary: XX%</div>
-        <div class="col-md-2">Grammar: XX%</div>
-        <div class="col-md-2">Kanji: XX%</div>
-    </div>
-</div>
+    }
+    <br />
+    @{
+        if (item.GoalID == ViewBag.GoalID)
+        {
+            @Html.ActionLink("Set as goal", "SetGoal", new { goalID = item.GoalID }, new { @class = "btn btn-primary", @style = "display:none;" })
+        }
+        else
+        {
+            @Html.ActionLink("Set as goal", "SetGoal", new { goalID = item.GoalID }, new { @class = "btn btn-primary", @style = "display:inline;" })
+        }
+    }
 
-<div class="row" style="margin-top:5px">
-    <div class="row panel-title" style="margin-top:5px"><a href="#">拉致被害者家族が記者会見「拉致問題を最優先で」</a></div>
-    <div class="row" style="margin-top:5px">
-        <div class="col-md-2">Vocabulary: XX%</div>
-        <div class="col-md-2">Grammar: XX%</div>
-        <div class="col-md-2">Kanji: XX%</div>
-    </div>
+    @Html.ActionLink("Read", "Text", new { textID=item.GoalID}, new { @class = "btn btn-primary" })
+
+
 </div>
+}
 
